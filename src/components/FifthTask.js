@@ -118,8 +118,8 @@ const FifthTask = () => {
 
                             <tbody className="divide-y divide-gray-200">
                                 {
-                                    userData?.map(user =>
-                                        <tr>
+                                    userData?.map((user, index) =>
+                                        <tr key={index}>
                                             <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{user?.name}</td>
                                             <td className="whitespace-nowrap px-4 py-2 text-gray-700">{user?.email}</td>
                                             <td className="whitespace-nowrap px-4 py-2 text-gray-700">{user?.age}</td>
