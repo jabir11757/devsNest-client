@@ -5,11 +5,12 @@ import { toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 
 const FifthTask = () => {
-    const { register, handleSubmit, formState: { errors }, reset, refetch } = useForm();
+    const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const [isClick, setIsClick] = useState(false);
 
-    const { data: userData } = useQuery({
-        queryKey: ['user-data'],
+    //fetch all user data
+    const { data: userData, refetch } = useQuery({
+        queryKey: ['get-user'],
         queryFn: async () => {
 
             const res = await fetch('http://localhost:7000/user/get-user');
@@ -17,8 +18,6 @@ const FifthTask = () => {
             return data
         }
     })
-    // refetch()
-
 
     const handleClickShow = () => {
         setIsClick(false)
@@ -27,8 +26,8 @@ const FifthTask = () => {
         setIsClick(true)
     }
 
-    const onInsertSubmit = async (data) => {
 
+    const onInsertSubmit = async (data) => {
         const postData = {
             name: data.user_name,
             email: data.user_email,
@@ -36,6 +35,7 @@ const FifthTask = () => {
             age: data.user_age
         }
 
+        //create user
         fetch('http://localhost:7000/user/post-user', {
             method: 'POST',
             headers: {
@@ -43,10 +43,30 @@ const FifthTask = () => {
             },
             body: JSON.stringify(postData)
         })
+            .then(res => res.json())
             .then(result => {
                 console.log(result)
                 reset()
                 toast.success('User Successfully Inserted!')
+                refetch()
+            })
+            .catch(err => console.error(err))
+    }
+
+    //delete user
+    const handleDeleteUser = (id) => {
+        console.log(id)
+        fetch(`http://localhost:7000/user/delete-user/${id}`, {
+            method: "DELETE",
+        })
+            .then(res => res.json())
+            .then(result => {
+                console.log(result)
+                if (result.acknowledged === true) {
+                    toast.success('User Successfully Deleted!')
+                    refetch()
+                }
+
             })
             .catch(err => console.error(err))
     }
@@ -63,7 +83,7 @@ const FifthTask = () => {
 
             {
                 !isClick ?
-                    <div>
+                    <div id='table'>
                         <h1 className='mt-8 mb-4 text-xl text-center text-green-600'>Users Info Table</h1>
                         <table className="min-w-full divide-y-2 divide-gray-200 text-sm outline outline-green-100">
                             <thead>
@@ -88,6 +108,11 @@ const FifthTask = () => {
                                     >
                                         Mobile
                                     </th>
+                                    <th
+                                        className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900"
+                                    >
+                                        Action
+                                    </th>
                                 </tr>
                             </thead>
 
@@ -99,6 +124,7 @@ const FifthTask = () => {
                                             <td className="whitespace-nowrap px-4 py-2 text-gray-700">{user?.email}</td>
                                             <td className="whitespace-nowrap px-4 py-2 text-gray-700">{user?.age}</td>
                                             <td className="whitespace-nowrap px-4 py-2 text-gray-700">{user?.mobile}</td>
+                                            <td><button onClick={() => handleDeleteUser(user?._id)} className="w-14 h-6 mx-2 bg-red-300 hover:bg-red-400 rounded-lg">Delete</button></td>
                                         </tr>)
                                 }
                             </tbody>
