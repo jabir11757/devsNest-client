@@ -9,7 +9,7 @@ const FourthTask = () => {
     let { data: usersData, refetch } = useQuery({
         queryKey: ['users'],
         queryFn: async () => {
-            const res = await fetch('https://jsonplaceholder.typicode.com/users');
+            const res = await fetch('http://localhost:7000/client/get-client');
             const data = await res.json();
             console.log(data)
             return data;
@@ -18,7 +18,7 @@ const FourthTask = () => {
 
     const handleDeleteUser = (id) => {
 
-        fetch(`http://localhost:7000/user/delete-client`, {
+        fetch(`http://localhost:7000/client/delete-client/${id}`, {
             method: "DELETE"
         })
             .then(res => res.json())
@@ -48,7 +48,7 @@ const FourthTask = () => {
                                             <h1 className="my-4 text-xl font-semibold text-white">Company: {users?.company.name}  </h1>
                                         </div>
                                         <div className="flex justify-end items-end">
-                                            <button onClick={() => handleDeleteUser(users?.id)} className="h-8 w-24 ml-20 bg-red-100 hover:bg-red-400 hover:text-white rounded-xl">Delete User</button>
+                                            <button onClick={() => handleDeleteUser(users?._id)} className="h-8 w-24 ml-20 bg-red-100 hover:bg-red-400 hover:text-white rounded-xl">Delete User</button>
                                         </div>
                                     </div>
                                 </div>
