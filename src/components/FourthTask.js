@@ -5,18 +5,20 @@ import User from '../images/user.jpg'
 
 const FourthTask = () => {
 
-    //fetch data from given link(json placeholder)
-    let { data: usersData, refetch } = useQuery({
+    const { data: usersData, refetch } = useQuery({
         queryKey: ['users'],
         queryFn: async () => {
+
+            //If I fetch data from given json placeholder API, and try to delete item,then it will temporary deleted.
+            //I have tried it and also get acknowledged "true", but array showed null.
+            //So I have collected all data and insert it on database, then I set it for deletion.
             const res = await fetch('https://job-task-server-gilt.vercel.app/client/get-client');
             const data = await res.json();
-            console.log(data)
             return data;
         }
     })
 
-    const handleDeleteUser = (id) => {
+    const handleDeleteUser = async (id) => {
 
         fetch(`https://job-task-server-gilt.vercel.app/client/delete-client/${id}`, {
             method: "DELETE"
@@ -35,8 +37,8 @@ const FourthTask = () => {
             <div className="max-w-6xl px-6 py-10 mx-auto">
                 <div className="grid grid-cols-1">
                     {
-                        usersData?.map(users =>
-                            <main className="relative z-20 w-full mt-8 md:flex md:items-center xl:mt-12">
+                        usersData?.map((users, index) =>
+                            <main key={index} className="relative z-20 w-full mt-8 md:flex md:items-center xl:mt-12">
                                 <div className="absolute w-full outline-dashed -z-10 md:h-96 rounded-2xl"></div>
                                 <div className="w-full p-6 md:flex md:items-center rounded-2xl md:bg-transparent md:p-0 lg:px-12 md:justify-evenly">
                                     <img className="h-24 w-24 md:mx-6 rounded-full object-cover shadow-md md:h-[32rem] md:w-80 lg:h-[36rem] lg:w-[26rem] md:rounded-2xl" src={User} alt="" />

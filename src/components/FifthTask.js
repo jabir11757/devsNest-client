@@ -12,7 +12,6 @@ const FifthTask = () => {
     const { data: userData, refetch } = useQuery({
         queryKey: ['get-user'],
         queryFn: async () => {
-
             const res = await fetch('https://job-task-server-gilt.vercel.app/user/get-user');
             const data = res.json();
             return data
@@ -25,7 +24,6 @@ const FifthTask = () => {
     const handleClickInsert = () => {
         setIsClick(true)
     }
-
 
     const onInsertSubmit = async (data) => {
         const postData = {
@@ -53,8 +51,10 @@ const FifthTask = () => {
             .catch(err => console.error(err))
     }
 
+
+
     //delete user
-    const handleDeleteUser = (id) => {
+    const handleDeleteUser = async (id) => {
         console.log(id)
         fetch(`https://job-task-server-gilt.vercel.app/user/delete-user/${id}`, {
             method: "DELETE",
@@ -66,9 +66,9 @@ const FifthTask = () => {
                     toast.success('User Successfully Deleted!')
                     refetch()
                 }
-
             })
             .catch(err => console.error(err))
+
     }
     return (
         <div className="w-1/2 mx-auto">
