@@ -9,7 +9,7 @@ const FourthTask = () => {
     let { data: usersData, refetch } = useQuery({
         queryKey: ['users'],
         queryFn: async () => {
-            const res = await fetch('http://localhost:7000/client/get-client');
+            const res = await fetch('https://job-task-server-gilt.vercel.app/client/get-client');
             const data = await res.json();
             console.log(data)
             return data;
@@ -18,12 +18,16 @@ const FourthTask = () => {
 
     const handleDeleteUser = (id) => {
 
-        fetch(`http://localhost:7000/client/delete-client/${id}`, {
+        fetch(`https://job-task-server-gilt.vercel.app/client/delete-client/${id}`, {
             method: "DELETE"
         })
             .then(res => res.json())
             .then(result => {
                 console.log(result)
+                if (result.acknowledged === true) {
+                    toast.success('Card Successfully Removed')
+                    refetch()
+                }
             })
     }
     return (
@@ -33,22 +37,22 @@ const FourthTask = () => {
                     {
                         usersData?.map(users =>
                             <main className="relative z-20 w-full mt-8 md:flex md:items-center xl:mt-12">
-                                <div className="absolute w-full bg-green-500 -z-10 md:h-96 rounded-2xl"></div>
-                                <div className="w-full p-6 bg-green-500 md:flex md:items-center rounded-2xl md:bg-transparent md:p-0 lg:px-12 md:justify-evenly">
-                                    <img className="h-24 w-24 md:mx-6 rounded-full object-cover shadow-md md:h-[32rem] md:w-80 lg:h-[36rem] lg:w-[26rem] md:rounded-2xl" src={User} alt="user photo" />
+                                <div className="absolute w-full outline-dashed -z-10 md:h-96 rounded-2xl"></div>
+                                <div className="w-full p-6 md:flex md:items-center rounded-2xl md:bg-transparent md:p-0 lg:px-12 md:justify-evenly">
+                                    <img className="h-24 w-24 md:mx-6 rounded-full object-cover shadow-md md:h-[32rem] md:w-80 lg:h-[36rem] lg:w-[26rem] md:rounded-2xl" src={User} alt="" />
 
                                     <div className="mt-2 md:mx-6 flex">
                                         <div className="">
-                                            <h1 className="my-4 text-xl font-semibold text-white">User Name: {users?.username}  </h1>
-                                            <h1 className="my-4 text-xl font-semibold text-white">Full Name: {users?.name} </h1>
-                                            <h1 className="my-4 text-xl font-semibold text-white">Mobile: {users?.phone}  </h1>
-                                            <h1 className="my-4 text-xl font-semibold text-white">Email: {users?.email}  </h1>
-                                            <h1 className="my-4 text-xl font-semibold text-white">Address: {users?.address.city}  </h1>
-                                            <h1 className="my-4 text-xl font-semibold text-white">Website: {users?.website}  </h1>
-                                            <h1 className="my-4 text-xl font-semibold text-white">Company: {users?.company.name}  </h1>
+                                            <h1 className="my-4 text-xl font-bold ">User Name: {users?.username}  </h1>
+                                            <h1 className="my-4 text-xl font-bold ">Full Name: {users?.name} </h1>
+                                            <h1 className="my-4 text-xl font-bold ">Mobile: {users?.phone}  </h1>
+                                            <h1 className="my-4 text-xl font-bold ">Email: {users?.email}  </h1>
+                                            <h1 className="my-4 text-xl font-bold ">Address: {users?.address.city}  </h1>
+                                            <h1 className="my-4 text-xl font-bold ">Website: {users?.website}  </h1>
+                                            <h1 className="my-4 text-xl font-bold ">Company: {users?.company.name}  </h1>
                                         </div>
                                         <div className="flex justify-end items-end">
-                                            <button onClick={() => handleDeleteUser(users?._id)} className="h-8 w-24 ml-20 bg-red-100 hover:bg-red-400 hover:text-white rounded-xl">Delete User</button>
+                                            <button onClick={() => handleDeleteUser(users?._id)} className="h-8 w-28 ml-20 mb-5 bg-green-600 text-white hover:bg-red-500 hover:text-white rounded-xl">Remove Card</button>
                                         </div>
                                     </div>
                                 </div>

@@ -5,7 +5,7 @@ import { toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 
 const FifthTask = () => {
-    const { register, handleSubmit, formState: { errors }, reset } = useForm();
+    const { register, handleSubmit, reset } = useForm();
     const [isClick, setIsClick] = useState(false);
 
     //fetch all user data
@@ -13,7 +13,7 @@ const FifthTask = () => {
         queryKey: ['get-user'],
         queryFn: async () => {
 
-            const res = await fetch('http://localhost:7000/user/get-user');
+            const res = await fetch('https://job-task-server-gilt.vercel.app/user/get-user');
             const data = res.json();
             return data
         }
@@ -36,7 +36,7 @@ const FifthTask = () => {
         }
 
         //create user
-        fetch('http://localhost:7000/user/post-user', {
+        fetch('https://job-task-server-gilt.vercel.app/user/post-user', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -56,7 +56,7 @@ const FifthTask = () => {
     //delete user
     const handleDeleteUser = (id) => {
         console.log(id)
-        fetch(`http://localhost:7000/user/delete-user/${id}`, {
+        fetch(`https://job-task-server-gilt.vercel.app/user/delete-user/${id}`, {
             method: "DELETE",
         })
             .then(res => res.json())
@@ -89,27 +89,27 @@ const FifthTask = () => {
                             <thead>
                                 <tr>
                                     <th
-                                        className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900"
+                                        className="whitespace-nowrap px-4 py-2 text-left font-bold text-gray-900"
                                     >
                                         Name
                                     </th>
                                     <th
-                                        className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900"
+                                        className="whitespace-nowrap px-4 py-2 text-left font-bold text-gray-900"
                                     >
                                         Email
                                     </th>
                                     <th
-                                        className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900"
+                                        className="whitespace-nowrap px-4 py-2 text-left font-bold text-gray-900"
                                     >
                                         Age
                                     </th>
                                     <th
-                                        className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900"
+                                        className="whitespace-nowrap px-4 py-2 text-left font-bold text-gray-900"
                                     >
                                         Mobile
                                     </th>
                                     <th
-                                        className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900"
+                                        className="whitespace-nowrap px-4 py-2 text-left font-bold text-gray-900"
                                     >
                                         Action
                                     </th>
